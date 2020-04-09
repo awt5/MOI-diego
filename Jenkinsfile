@@ -16,12 +16,12 @@ pipeline {
         stage('Deploy'){
             parallel {
                 stage('DeployToDevEnv'){
-                    step {
+                    steps {
                         sh 'echo "Deploying to Dev Environment"'
                     }
                 }
                 stage('DeployToQAEnv'){
-                    step {
+                    steps {
                         sh 'echo "Deploying to QA Environment" '
                     }
                 }
