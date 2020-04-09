@@ -10,6 +10,7 @@ pipeline {
         stage('Tests') {
             steps {
                 sh 'echo "Running Tests"'
+                sh 'java -version'
             }
         }
     }
