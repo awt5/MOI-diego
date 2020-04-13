@@ -2,18 +2,19 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+        stage('Build'){
             steps {
                 sh 'echo "Start building app"'
+                sh './gradlew clean build'
             }
         }
-        stage('Tests') {
-            steps {
-                sh 'echo "Running Tests"'
-                sh 'java -version'
+        stage('Sonar Scan'){
+            steps{
+                sh 'echo "Running Sonar"'
+                sh './gradlew sonarqube'
             }
         }
-        stage('Publish to Artifactory') {
+        stage('Publish to Artifactory'){
             steps {
                 sh 'exit -1'
             }

@@ -25,7 +25,7 @@ public class PythonCommandBuilderTest {
     private static String directoryFile;
     private static String command;
 
-    @BeforeAll
+    /*@BeforeAll
     static void initAll() {
         directoryFile = Constant.ROOTPATH.getValue() + "\\thirdparty\\python\\local\\";
         String space = " ";
@@ -46,5 +46,5 @@ public class PythonCommandBuilderTest {
         String commandResult = pythonCommandBuilder.buildCommand(params.getFilesPath());
 
         assertEquals(command, commandResult);
-    }
+    }*/
 }
