@@ -1,10 +1,10 @@
-  
 pipeline {
     agent any
     stages {
         stage('Build'){
             steps {
                 sh 'echo "Start building app"'
+                sh 'chmod u+x gradlew'
                 sh './gradlew clean build'
             }
         }
@@ -33,5 +33,17 @@ pipeline {
                 }
             }
         }
+    }
+    environment {
+        EMAIL_ME = 'luceroqpdb@gmail.com'
+    }
+    post {
+        always {
+            junit 'build/test-results/**/*.xml'
+            emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL} \n Pipeline: ${env.BUILD_URL} has been well executed",
+                 recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
+                 subject: "Jenkins Build ${currentBuild.currentResult} # {$env.BUILD_NUMBER}: Job ${env.JOB_NAME}!"
+        }
+
     }
 }
