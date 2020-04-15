@@ -69,7 +69,7 @@ public class Executer {
         }
         try {
             pid = getPid(process.toString());
-        } catch (StringIndexOutOfBoundsException e) {
+        } catch (StringIndexOutOfBoundsException | NoSuchFieldException | IllegalAccessException e) {
             LOGGER.error(e.getMessage());
             throw new ProcessIDException(e);
         }
@@ -149,10 +149,11 @@ public class Executer {
      * @param processName process name
      * @return a process id
      */
-    private Long getPid(String processName) {
-        return Long.parseLong(
-                processName.substring(
-                        processName.indexOf("=") + 1, processName.indexOf(",")
-                ));
+    private Long getPid(Process process) throws NoSuchFieldException, IllegalAccessException {
+        Field f = process.getClass().getDeclaredField("pid");
+        f.setAccessible(true);
+        Long result = f.getLong(process);
+        f.setAccessible(false);
+        return result;
     }
 }
