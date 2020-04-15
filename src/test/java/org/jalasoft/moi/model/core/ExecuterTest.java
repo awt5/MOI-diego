@@ -30,18 +30,18 @@ public class ExecuterTest {
         processCache = new ProcessCacheTest();
     }
 
-    /*@Test
+    @Test
     public void givenTestParamAndHandlerWhenExecuteParamThenReceiveTheExpectedOutput() throws CommandBuildException, ResultException, ProcessIDException {
         //given
-        String expectedResult = "Microsoft Windows [Versión 10.0.18363.720]";
+        String expectedResult = "Test\n";
         Result currentResult;
         Executer testExecute = new Executer(processCache);
         //when
-        currentResult = testExecute.execute("VER");
+        currentResult = testExecute.execute("echo 'Test'");
         //then
         assertEquals(expectedResult, currentResult.getValue());
     }
-*/
+
     @Test
     public void throwsExceptionWhenCommandNullTest() {
         Executer executer = new Executer(new ProcessService());

@@ -56,7 +56,7 @@ public class Executer {
      * @throws ProcessIDException
      */
     public Result execute(String command) throws CommandBuildException, ResultException, ProcessIDException {
-        ProcessBuilder builder = new ProcessBuilder("cmd", "/c", "\"" + command + "\"");
+        ProcessBuilder builder = new ProcessBuilder("sh", "-c", command);
         builder.redirectErrorStream(true);
         Process process;
         long pid;

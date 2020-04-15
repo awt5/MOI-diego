@@ -50,7 +50,7 @@ public class PythonCommandBuilder implements ICommandBuilder {
      * @return compilation command
      */
     private String commandToCompile(Path path) {
-        return pythonPath + " -m compileall " + path;
+        return "python3 -m compileall " + path;
     }
 
     /**
@@ -61,7 +61,7 @@ public class PythonCommandBuilder implements ICommandBuilder {
      */
     private String commandToRun(Path path) {
         String fileMain = "\\MainClass.py";
-        return pythonPath + " " + path + fileMain;
+        return "python3" + path + fileMain;
     }
 
     @Override
