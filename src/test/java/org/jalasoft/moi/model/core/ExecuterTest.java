@@ -9,18 +9,15 @@
 
 package org.jalasoft.moi.model.core;
 
-import org.jalasoft.moi.controller.services.ProcessService;
 import org.jalasoft.moi.model.core.parameters.Result;
 import org.jalasoft.moi.model.exceptions.CommandBuildException;
 import org.jalasoft.moi.model.exceptions.ProcessIDException;
 import org.jalasoft.moi.model.exceptions.ResultException;
 import org.jalasoft.moi.model.interaction.ProcessCacheTest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ExecuterTest {
     private static ProcessCacheTest processCache;
@@ -33,25 +30,18 @@ public class ExecuterTest {
     @Test
     public void givenTestParamAndHandlerWhenExecuteParamThenReceiveTheExpectedOutput() throws CommandBuildException, ResultException, ProcessIDException {
         //given
-        String expectedResult = "Test\n";
+        String expectedResult = "Tested\r\n";
         Result currentResult;
         Executer testExecute = new Executer(processCache);
         //when
-        currentResult = testExecute.execute("echo 'Test'");
+        currentResult = testExecute.execute("echo Tested");
         //then
         assertEquals(expectedResult, currentResult.getValue());
     }
 
-    @Test
-    public void throwsExceptionWhenCommandNullTest() {
-        Executer executer = new Executer(new ProcessService());
-        Exception exception = assertThrows(ProcessIDException.class, () -> {
-            executer.execute(null);;
-        });
-
-        String expected = "Invalid process ID; id could not be captured.";
-        String actual = exception.getMessage();
-
-        assertEquals(expected, actual);
+    @org.junit.Test(expected = ProcessIDException.class)
+    public void throwsExceptionWhenCommandNullTest() throws CommandBuildException, ResultException, ProcessIDException {
+        Executer executer = new Executer(processCache);
+        executer.execute(null);
     }
 }

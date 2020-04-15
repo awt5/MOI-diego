@@ -20,18 +20,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class JavaCommandBuilderTest {
 
-    /*@Test
+    @Test
     public void givenParamsWhenBuildCommandThenReceiveTheExpectedComand() {
         //given
         Parameters testParam = getParams(".\\temp\\java\\test");
         JavaCommandBuilder buildThisCommand = new JavaCommandBuilder();
-        String expectedCommand = "cd .\\temp\\java\\test && javac *.java && java MainClass";
+        String expectedCommand = "javac .\\temp\\java\\test\\*.java && java -cp .\\temp\\java\\test MainClass";
         //when
         String currentCommand = buildThisCommand.buildCommand(testParam.getFilesPath());
         //then
         assertEquals(expectedCommand, currentCommand);
     }
-*/
+
     private Parameters getParams(String paramTest) {
         Parameters params = new Params();
         params.setFilesPath(Paths.get(paramTest));
