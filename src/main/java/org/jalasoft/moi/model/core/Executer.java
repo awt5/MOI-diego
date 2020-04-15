@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Field;
 import java.util.Objects;
 
 /**
@@ -68,7 +69,7 @@ public class Executer {
             throw new CommandBuildException(e);
         }
         try {
-            pid = getPid(process.toString());
+            pid = getPid(process);
         } catch (StringIndexOutOfBoundsException | NoSuchFieldException | IllegalAccessException e) {
             LOGGER.error(e.getMessage());
             throw new ProcessIDException(e);
@@ -146,7 +147,7 @@ public class Executer {
     /**
      * Obtains the process id as long.
      *
-     * @param processName process name
+     * @param process object
      * @return a process id
      */
     private Long getPid(Process process) throws NoSuchFieldException, IllegalAccessException {
