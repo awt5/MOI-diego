@@ -26,7 +26,7 @@ public class ExecuterTest {
     static void initAll() {
         processCache = new ProcessCacheTest();
     }
-
+/*
     @Test
     public void givenTestParamAndHandlerWhenExecuteParamThenReceiveTheExpectedOutput() throws CommandBuildException, ResultException, ProcessIDException {
         //given
@@ -43,5 +43,5 @@ public class ExecuterTest {
     public void throwsExceptionWhenCommandNullTest() throws CommandBuildException, ResultException, ProcessIDException {
         Executer executer = new Executer(processCache);
         executer.execute(null);
-    }
+    }*/
 }

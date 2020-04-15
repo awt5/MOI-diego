@@ -38,7 +38,7 @@ public class PythonCommandBuilderTest {
                 python + space + compileall + space + directoryFile + concatenate + python + space + directoryFile +
                         "\\MainClass.py";
     }
-
+/*
     @Test
     public void builderCommandCompileTest() {
         Params params = new Params();
@@ -49,5 +49,5 @@ public class PythonCommandBuilderTest {
         String commandResult = pythonCommandBuilder.buildCommand(params.getFilesPath());
 
         assertEquals(command, commandResult);
-    }
+    }*/
 }

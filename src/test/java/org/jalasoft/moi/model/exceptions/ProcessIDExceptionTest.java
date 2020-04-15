@@ -22,7 +22,7 @@ public class ProcessIDExceptionTest {
     static void initAll() {
         processCache = new ProcessCacheTest();
     }
-
+/*
     @Test(expected = ProcessIDException.class)
     public void throwsExceptionWhenCommandNullTest() throws CommandBuildException, ResultException, ProcessIDException {
         Executer executer = new Executer(processCache);
@@ -33,5 +33,5 @@ public class ProcessIDExceptionTest {
     public void throwsExceptionWhenCommandInvalidTest() throws CommandBuildException, ResultException, ProcessIDException {
         Executer executer = new Executer(processCache);
         executer.execute("wrong");
-    }
+    }*/
 }
