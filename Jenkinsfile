@@ -51,7 +51,7 @@ pipeline {
                 reportDir: 'build/reports/tests/test',
                 reportFiles: 'index.html',
                 reportName: "MOI-project test Report"
-            ])
+            ]),
             emailext to: "${EMAIL_ME}", 
                  subject: "Jenkins build ${currentBuild.currentResult} # {$env.BUILD_NUMBER}: Job ${env.JOB_NAME}",
                  body: "The pipeline: ${currentBuild.fullDisplayName} has been executed with the next result: ${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}"
