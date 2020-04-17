@@ -6,8 +6,8 @@ plugins {
     id "org.sonarqube" version "2.8"
 }
 
-group 'org.jalasoft.moi'
-version '1.0-SNAPSHOT'
+group = 'org.jalasoft.moi'
+version = '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
@@ -67,7 +67,6 @@ sonarqube {
 jacocoTestReport {
     reports {
         xml.enabled true
-        html.enabled true
     }
 }
 test.finalizedBy jacocoTestReport
