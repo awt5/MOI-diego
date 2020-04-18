@@ -1,9 +1,5 @@
 #base image
-FROM ubuntu:18.04
-# Install OpenJDK-8
-RUN apt-get update && \
-    apt-get install -y openjdk-8-jdk && \
-    apt-get clean;
+FROM moi-ubase:1.0
 
 # Copy .jar file
 RUN mkdir /data
