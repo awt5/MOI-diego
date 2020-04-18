@@ -45,6 +45,14 @@ pipeline {
                 }
             }
         }
+        stage('Publish'){ 
+            //when {
+            //    branch 'develop'
+            //}
+            steps{
+                sh './gradlew artifactoryPublish'
+            }         
+        }
     }
     post {
         always {
