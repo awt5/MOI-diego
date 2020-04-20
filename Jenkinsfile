@@ -45,10 +45,7 @@ pipeline {
                 }
             }
         }
-        stage('Publish'){ 
-            //when {
-            //    branch 'develop'
-            //}
+        stage('Publish'){
             steps{
                 sh './gradlew artifactoryPublish'
             }         
