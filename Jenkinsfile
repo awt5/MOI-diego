@@ -34,9 +34,9 @@ pipeline {
         stage('Deploy To Dev Environment'){
             steps {
                 sh 'echo "Deploying to Dev Environment"'
-                sh 'sudo docker-compose config'
-                sh 'sudo docker-compose build'
-                sh 'sudo docker-compose up -d'
+                sh 'docker-compose config'
+                sh 'docker-compose build'
+                sh 'docker-compose up -d'
             }
         }
         stage('Publish to Artifactory'){
@@ -44,14 +44,15 @@ pipeline {
                 branch 'develop'
             }
             steps{
-                sh './gradlew artifactoryPublish'
+                sh './gradlew -Partifactory_repokey=libs-snapshot-local artifactoryPublish'
             }
-            /*when{
+            when{
                 branch 'master'
             }         
             steps{
-                sh './gradlew artifactoryPublish'
-            }*/
+                sh './gradlew -Partifactory_repokey=libs-release-local artifactoryPublish'
+
+            }
         }
         stage('Deploy To QA Environment'){
             steps {
