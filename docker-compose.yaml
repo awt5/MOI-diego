@@ -20,7 +20,7 @@ services:
       - "9092:9091"
     volumes:
       #- ./../files:/data/temp/projects/
-      - moi-appvolume:/data/temp/projects/
+      - moi-appvolume:/data
     depends_on:
       - bd
 
