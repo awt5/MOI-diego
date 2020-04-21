@@ -31,24 +31,39 @@ pipeline {
                 sh './gradlew sonarqube'
             }
         }
-        stage('Deploy'){
-            parallel {
-                stage('DeployToDevEnv'){
-                    steps {
-                        sh 'echo "Deploying to Dev Environment"'
-                    }
-                }
-                stage('DeployToQAEnv'){
-                    steps {
-                        sh 'echo "Deploying to QA Environment"'
-                    }
-                }
+        stage('Deploy To Dev Environment'){
+            steps {
+                sh 'echo "Deploying to Dev Environment"'
+                sh 'docker-compose config'
+                sh 'docker-compose build'
+                sh 'docker-compose up -d'
             }
         }
-        stage('Publish'){
+        stage('Publish to Artifactory'){
+            when{
+                branch 'develop'
+            }
             steps{
                 sh './gradlew artifactoryPublish'
+            }
+            /*when{
+                branch 'master'
             }         
+            steps{
+                sh './gradlew artifactoryPublish'
+            }*/
+        }
+        stage('Deploy To QA Environment'){
+            steps {
+                sh 'echo "Deploying to QA Environment"'
+            }
+        }
+        stage('Workspace clean up'){
+            steps{
+                sh 'docker-compose down -v'
+                sh 'sudo docker rmi $(sudo docker images -aq -f dangling=true)'
+                cleanWs()
+            }
         }
     }
     post {
