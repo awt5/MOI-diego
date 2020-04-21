@@ -14,7 +14,7 @@ services:
   web:
     container_name: moi-app-cont
     restart: on-failure
-    image: moi-ubase
+    image: moi-ubase:1.0
     build: .
     ports:
       - "9092:9091"

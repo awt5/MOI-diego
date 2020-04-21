@@ -34,9 +34,9 @@ pipeline {
         stage('Deploy To Dev Environment'){
             steps {
                 sh 'echo "Deploying to Dev Environment"'
-                sh 'docker-compose config'
-                sh 'docker-compose build'
-                sh 'docker-compose up -d'
+                sh 'sudo docker-compose config'
+                sh 'sudo docker-compose build'
+                sh 'sudo docker-compose up -d'
             }
         }
         stage('Publish to Artifactory'){
