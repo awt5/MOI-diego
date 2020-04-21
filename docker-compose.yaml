@@ -21,6 +21,8 @@ services:
     volumes:
       #- ./../files:/data/temp/projects/
       - moi-appvolume:/data/temp/projects/
+    depends_on:
+      - bd
 
 volumes:
     moi-datavolume:
