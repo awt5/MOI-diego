@@ -49,6 +49,8 @@ pipeline {
             }*/
             steps {
                 sh 'echo "Deploying to Dev Environment"'
+                sh 'whoami'
+                sh 'pwd'
                 sh 'cp docker-compose.yaml $DEV_HOME'
                 sh 'cd $DEV_HOME'
                 sh 'docker-compose down -v'
@@ -99,9 +101,6 @@ pipeline {
             }
             steps {
                 sh 'echo "Deploying to QA Environment"'
-                sh 'whoami'
-                sh 'pwd'
-                sh 'cp docker-compose.yaml $QA_HOME'
                 sh 'cd $QA_HOME'
                 sh 'docker-compose down -v'
                 sh 'docker-compose config'
