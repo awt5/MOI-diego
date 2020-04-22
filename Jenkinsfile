@@ -3,6 +3,9 @@ pipeline {
     environment {
         EMAIL_TEAM = 'dramahp13@gmail.com, jdhpp_perez@hotmail.com, nanrehd.13@gmail.com'
         EMAIL_ADMIN = 'nanrehd.13@gmail.com'
+        PROJECT_NAME = 'moi-app'
+        DOCKER_CREDS = 'docker_id'
+        USER_DOCKER_HUB = 'jdiego13'
     }
     stages {
         stage('Build'){
@@ -19,7 +22,7 @@ pipeline {
                     keepAll: true,
                     reportDir: 'build/reports/tests/test',
                     reportFiles: 'index.html',
-                    reportName: "MOI-project test Report"
+                    reportName: "MOI-app test Report"
                     ])
                     archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
                 }
@@ -34,6 +37,7 @@ pipeline {
         stage('Deploy To Dev Environment'){
             steps {
                 sh 'echo "Deploying to Dev Environment"'
+                sh 'docker-compose down -v'
                 sh 'docker-compose config'
                 sh 'docker-compose build'
                 sh 'docker-compose up -d'
@@ -56,6 +60,17 @@ pipeline {
                     steps{
                         sh './gradlew -Partifactory_repokey=libs-release-local artifactoryPublish'
                     }
+                }
+            }
+        }
+        stage('Publish To Docker Hub'){ 
+            when {
+                branch 'develop'
+            }
+            steps{
+                withDockerRegistry([ credentialsId: "${DOCKER_CREDS}", url: "https://index.docker.io/v1/" ]) {
+                    sh 'docker tag ${PROJECT_NAME}:latest ${USER_DOCKER_HUB}/${PROJECT_NAME}:v1.0-$BUILD_NUMBER'
+                    sh 'docker push ${USER_DOCKER_HUB}/${PROJECT_NAME}'
                 }
             }
         }

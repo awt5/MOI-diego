@@ -8,22 +8,22 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 'root' # TODO: Change this
     volumes:
-      - moi-datavolume:/var/lib/mysql
+      - moi-data:/var/lib/mysql
     ports:
       - "3306:3306"
   web:
     container_name: moi-app-cont
     restart: on-failure
-    image: moi-ubase:1.0
+    image: moi-app
     build: .
     ports:
       - "9092:9091"
     volumes:
       #- ./../files:/data/temp/projects/
-      - moi-appvolume:/data
+      - moi-app:/data
     depends_on:
       - bd
 
 volumes:
-    moi-datavolume:
-    moi-appvolume:
+    moi-data:
+    moi-app:
