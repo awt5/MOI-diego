@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+  bd:
+    container_name: moi-db-cont
+    #restart: always
+    image: mysql:5.7
+    command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root' # TODO: Change this
+    volumes:
+      - moi-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  web:
+    container_name: moi-app-cont
+    restart: on-failure
+    image: moi-app
+    build: .
+    ports:
+      - "9092:9091"
+    volumes:
+      #- ./../files:/data/temp/projects/
+      - moi-app:/data
+    depends_on:
+      - bd
+
+volumes:
+    moi-data:
+    moi-app:
