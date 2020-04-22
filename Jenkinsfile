@@ -40,7 +40,7 @@ pipeline {
             }
         }
         stage('Publish to Artifactory'){
-            paarllel {
+            parallel {
                 stage('For a snapshot'){
                     when{
                         branch 'develop'
