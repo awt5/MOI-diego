@@ -39,8 +39,18 @@ pipeline {
             }
         }
         stage('Deploy To Dev Environment'){
+            environment{
+                APP_PORT=9092
+                DB_PORT=3307
+                DEV_HOME='~/deployments/dev'
+            }
+            /*when {
+                branch 'develop'
+            }*/
             steps {
                 sh 'echo "Deploying to Dev Environment"'
+                sh 'cp docker-compose.yml $QA_HOME'
+                sh 'cd $QA_DEV'
                 sh 'docker-compose down -v'
                 sh 'docker-compose config'
                 sh 'docker-compose build'
@@ -79,8 +89,22 @@ pipeline {
             }
         }
         stage('Deploy To QA Environment'){
+            environment{
+                APP_PORT=9093
+                DB_PORT=3308
+                QA_HOME='~/deployments/qa'
+            }
+            when {
+                branch 'develop'
+            }
             steps {
                 sh 'echo "Deploying to QA Environment"'
+                sh 'cp docker-compose.yml $QA_HOME'
+                sh 'cd $QA_HOME'
+                sh 'docker-compose down -v'
+                sh 'docker-compose config'
+                sh 'docker-compose build'
+                sh 'docker-compose up -d'
             }
         }
         stage('Workspace clean up'){
