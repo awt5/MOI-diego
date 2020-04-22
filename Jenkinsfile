@@ -39,19 +39,22 @@ pipeline {
                 sh 'docker-compose up -d'
             }
         }
-        stage('Publish to Artifactory'){
-            when{
-                branch 'develop'
+        stages('Publish to Artifactory'){
+            stage('For a snapshot'){
+                when{
+                    branch 'develop'
+                }
+                steps{
+                    sh './gradlew -Partifactory_repokey=libs-snapshot-local artifactoryPublish'
+                }
             }
-            steps{
-                sh './gradlew -Partifactory_repokey=libs-snapshot-local artifactoryPublish'
-            }
-            when{
-                branch 'master'
-            }         
-            steps{
-                sh './gradlew -Partifactory_repokey=libs-release-local artifactoryPublish'
-
+            stage('For a release'){
+                when{
+                    branch 'master'
+                }         
+                steps{
+                    sh './gradlew -Partifactory_repokey=libs-release-local artifactoryPublish'
+                }
             }
         }
         stage('Deploy To QA Environment'){
