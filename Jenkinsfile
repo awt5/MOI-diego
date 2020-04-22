@@ -51,6 +51,7 @@ pipeline {
                 sh 'echo "Deploying to Dev Environment"'
                 sh 'whoami'
                 sh 'pwd'
+                sh 'cd $DEV_HOME'
                 sh 'cp docker-compose.yaml $DEV_HOME'
                 sh 'cd $DEV_HOME'
                 sh 'docker-compose down -v'
