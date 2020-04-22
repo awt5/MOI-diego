@@ -42,18 +42,13 @@ pipeline {
             environment{
                 APP_PORT=9092
                 DB_PORT=3307
-                DEV_HOME='~/awt05/deployments/dev'
+                //DEV_HOME='~/awt05/deployments/dev'
             }
             /*when {
                 branch 'develop'
             }*/
             steps {
                 sh 'echo "Deploying to Dev Environment"'
-                sh 'whoami'
-                sh 'pwd'
-                sh 'cd $DEV_HOME'
-                sh 'cp docker-compose.yaml $DEV_HOME'
-                sh 'cd $DEV_HOME'
                 sh 'docker-compose down -v'
                 sh 'docker-compose config'
                 sh 'docker-compose build'
@@ -102,6 +97,7 @@ pipeline {
             }
             steps {
                 sh 'echo "Deploying to QA Environment"'
+                sh 'cp docker-compose.yaml $QA_HOME'
                 sh 'cd $QA_HOME'
                 sh 'docker-compose down -v'
                 sh 'docker-compose config'
