@@ -49,8 +49,8 @@ pipeline {
             }*/
             steps {
                 sh 'echo "Deploying to Dev Environment"'
-                sh 'cp docker-compose.yml $QA_HOME'
-                sh 'cd $QA_DEV'
+                sh 'cp docker-compose.yml $DEV_HOME'
+                sh 'cd $DEV_HOME'
                 sh 'docker-compose down -v'
                 sh 'docker-compose config'
                 sh 'docker-compose build'
