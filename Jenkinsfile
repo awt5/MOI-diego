@@ -99,6 +99,8 @@ pipeline {
             }
             steps {
                 sh 'echo "Deploying to QA Environment"'
+                sh 'whoami'
+                sh 'pwd'
                 sh 'cp docker-compose.yaml $QA_HOME'
                 sh 'cd $QA_HOME'
                 sh 'docker-compose down -v'
