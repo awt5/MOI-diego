@@ -40,7 +40,7 @@ pipeline {
             }
         }
         stage('Publish to Artifactory'){
-            stages{
+            paarllel {
                 stage('For a snapshot'){
                     when{
                         branch 'develop'
@@ -67,7 +67,7 @@ pipeline {
         stage('Workspace clean up'){
             steps{
                 sh 'docker-compose down -v'
-                sh 'sudo docker rmi $(sudo docker images -aq -f dangling=true)'
+                sh 'docker rmi $(docker images -aq -f dangling=true)'
                 cleanWs()
             }
         }
