@@ -106,6 +106,10 @@ pipeline {
             }
         }
         stage('Workspace clean up'){
+            environment{
+                APP_PORT=9092
+                DB_PORT=3307
+            }
             steps{
                 sh 'docker-compose down -v'
                 sh 'docker rmi $(docker images -aq -f dangling=true)'
