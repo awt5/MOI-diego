@@ -15,6 +15,10 @@ pipeline {
                 sh './gradlew clean build'  
             }
             post {
+                always {
+                    sh 'touch build/test-results/test/*.xml'
+                    junit 'build/test-results/test/*.xml'
+                }
                 success {
                     publishHTML (target: [
                     allowMissing: false,
@@ -89,8 +93,6 @@ pipeline {
     }
     post {
         always {
-            sh 'touch build/test-results/test/*.xml'
-            junit 'build/test-results/test/*.xml'
             emailext to: "${EMAIL_ADMIN}",
                  subject: "Jenkins Build ${currentBuild.currentResult} # {$env.BUILD_NUMBER}: Job ${env.JOB_NAME}",
                  body: "The pipeline: ${currentBuild.fullDisplayName} has been executed with the next result: ${currentBuild.currentResult}"
