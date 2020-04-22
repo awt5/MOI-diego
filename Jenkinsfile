@@ -42,7 +42,7 @@ pipeline {
             environment{
                 APP_PORT=9092
                 DB_PORT=3307
-                DEV_HOME='~/deployments/dev'
+                DEV_HOME='~awt05/deployments/dev'
             }
             /*when {
                 branch 'develop'
@@ -92,7 +92,7 @@ pipeline {
             environment{
                 APP_PORT=9093
                 DB_PORT=3308
-                QA_HOME='~/deployments/qa'
+                QA_HOME='~/awt05/deployments/qa'
             }
             when {
                 branch 'develop'
