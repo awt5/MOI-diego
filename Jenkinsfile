@@ -39,6 +39,14 @@ pipeline {
             }
         }
         stage('Deploy To Dev Environment'){
+            environment{
+                APP_PORT=9092
+                DB_PORT=3307
+                //DEV_HOME='~/awt05/deployments/dev'
+            }
+            /*when {
+                branch 'develop'
+            }*/
             steps {
                 sh 'echo "Deploying to Dev Environment"'
                 sh 'docker-compose down -v'
@@ -79,11 +87,29 @@ pipeline {
             }
         }
         stage('Deploy To QA Environment'){
+            environment{
+                APP_PORT=9093
+                DB_PORT=3308
+                QA_HOME='~/awt05/deployments/qa'
+            }
+            when {
+                branch 'develop'
+            }
             steps {
                 sh 'echo "Deploying to QA Environment"'
+                sh 'cp docker-compose.yaml $QA_HOME'
+                sh 'cd $QA_HOME'
+                sh 'docker-compose down -v'
+                sh 'docker-compose config'
+                sh 'docker-compose build'
+                sh 'docker-compose up -d'
             }
         }
         stage('Workspace clean up'){
+            environment{
+                APP_PORT=9092
+                DB_PORT=3307
+            }
             steps{
                 sh 'docker-compose down -v'
                 sh 'docker rmi $(docker images -aq -f dangling=true)'

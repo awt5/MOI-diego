@@ -10,14 +10,14 @@ services:
     volumes:
       - moi-data:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "${DB_PORT}:3306"
   web:
     container_name: moi-app-cont
     restart: on-failure
     image: moi-app
     build: .
     ports:
-      - "9092:9091"
+      - "${APP_PORT}:9091"
     volumes:
       #- ./../files:/data/temp/projects/
       - moi-app:/data
