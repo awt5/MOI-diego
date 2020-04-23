@@ -100,7 +100,7 @@ pipeline {
                     }
                     steps{
                         withDockerRegistry([ credentialsId: "${DOCKER_CREDS}", url: "https://index.docker.io/v1/" ]) {
-                            sh 'docker tag ${PROJECT_NAME}:latest ${DOCKER_HUB_IMAGE}:${BUILD_VERSION}'
+                            sh 'docker tag ${DOCKER_HUB_IMAGE}:latest ${DOCKER_HUB_IMAGE}:${BUILD_VERSION}'
                             sh 'docker push ${DOCKER_HUB_IMAGE}'
                         }
                     }
@@ -111,7 +111,7 @@ pipeline {
                     }
                     steps{
                         withDockerRegistry([ credentialsId: "${DOCKER_CREDS}", url: "https://index.docker.io/v1/" ]) {
-                            sh 'docker tag ${PROJECT_NAME}:latest ${DOCKER_HUB_IMAGE}:${PROJECT_VERSION}'
+                            sh 'docker tag ${DOCKER_HUB_IMAGE}:latest ${DOCKER_HUB_IMAGE}:${PROJECT_VERSION}'
                             sh 'docker push ${DOCKER_HUB_IMAGE}'
                         }
                     }
