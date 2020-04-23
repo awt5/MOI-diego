@@ -12,6 +12,7 @@ pipeline {
             steps {
                 sh 'echo "Start building app"'
                 sh 'chmod u+x gradlew'
+                //sh 'exit -1'
                 sh './gradlew clean build'  
             }
             post {
@@ -44,9 +45,12 @@ pipeline {
                 DB_PORT=3307
                 //DEV_HOME='~/awt05/deployments/dev'
             }
-            /*when {
-                branch 'develop'
-            }*/
+            when {
+                anyOf{
+                    branch 'develop'
+                    branch 'master'
+                }
+            }
             steps {
                 sh 'echo "Deploying to Dev Environment"'
                 sh 'docker-compose down -v'
@@ -97,7 +101,8 @@ pipeline {
             }
             steps {
                 sh 'echo "Deploying to QA Environment"'
-                sh 'cp docker-compose.yaml $QA_HOME'
+                sh 'ls -l $QA_HOME'
+                sh 'cp docker-compose.yaml $QA_HOME/'
                 sh 'cd $QA_HOME'
                 sh 'docker-compose down -v'
                 sh 'docker-compose config'
