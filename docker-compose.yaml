@@ -14,7 +14,7 @@ services:
   web:
     container_name: moi-app-cont
     restart: on-failure
-    image: moi-app
+    image: jdiego13/moi-app
     build: .
     ports:
       - "${APP_PORT}:9091"
