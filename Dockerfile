@@ -1,5 +1,5 @@
 #base image
-FROM moi-ubase:1.0
+FROM jdiego13/moi-ubase:1.0
 
 # Copy .jar file
 RUN mkdir /data
