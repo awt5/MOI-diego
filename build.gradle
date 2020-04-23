@@ -1,11 +1,16 @@
 plugins {
     id 'java'
+    id 'jacoco'
+    id 'maven-publish'
     id 'org.springframework.boot' version '2.2.5.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id "org.sonarqube" version "2.8"
+    id 'com.jfrog.artifactory' version '4.9.8'
+
 }
 
-group 'org.jalasoft.moi'
-version '1.0-SNAPSHOT'
+group = 'org.jalasoft.moi'
+version = "${version}"
 
 sourceCompatibility = 1.8
 
@@ -48,4 +53,47 @@ bootJar {
 
 bootRun {
     main = 'org.jalasoft.moi.Main'
+}
+
+sonarqube {
+  properties {
+    property "sonar.projectKey", "awt5_MOI-diego"
+    property "sonar.organization", "awt5"
+    property "sonar.host.url", "https://sonarcloud.io"
+    property "sonar.login", "8e3cba24fe5cb6a4593e292b2fc7f49ac36e3b72"
+    property "sonar.junit.reportsPath", "build/test-results/test"
+    property "sonar.java.coveragePlugin", "jacoco"
+    property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml"
+  }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+test.finalizedBy jacocoTestReport
+
+artifactory {
+    contextUrl = "${artifactory_contextUrl}"
+    publish {
+        repository {
+            repoKey = "${artifactory_repokey}"
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+
+        }       
+        defaults {
+            publications ('mavenJava')
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
 }

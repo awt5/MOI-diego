@@ -36,7 +36,7 @@ public class HandlerTest {
         processCache = new ProcessCacheTest();
     }
 
-    @Test
+    /*@Test
     public void givenTestParamAndHandlerWhenExecuteParamThenReceiveTheExpectedOutput() throws ResultException, CommandBuildException, ParametersException, ProcessIDException {
         //given
         String expectedResult = "Hey! estoy en el main1!/nhellooooooooo!!!!/nHey! estoy en el main2!";
@@ -76,7 +76,7 @@ public class HandlerTest {
         //then
         assertEquals(expectedResult, actualValue.getValue());
     }
-
+*/
     @Test
     public void cppHandlerTestEmptyPath() {
         //given
