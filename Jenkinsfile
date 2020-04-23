@@ -4,8 +4,10 @@ pipeline {
         EMAIL_TEAM = 'dramahp13@gmail.com, jdhpp_perez@hotmail.com, nanrehd.13@gmail.com'
         EMAIL_ADMIN = 'nanrehd.13@gmail.com'
         PROJECT_NAME = 'moi-app'
+        PROJECT_VERSION = '1.1'
         DOCKER_CREDS = 'docker_id'
-        USER_DOCKER_HUB = 'jdiego13'
+        DOCKER_HUB_IMAGE = 'jdiego13/${PROJECT_NAME}'
+        BUILD_VERSION = '1.0.$BUILD_NUMBER'
     }
     stages {
         stage('Build'){
@@ -29,13 +31,24 @@ pipeline {
                     reportFiles: 'index.html',
                     reportName: "MOI-app test Report"
                     ])
+                    publishHTML (target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: true,
+                    reportDir: 'build/reports/jacoco/test/html',
+                    reportFiles: 'index.html',
+                    reportName: "MOI-app test Coverage"
+                    ])
                     archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
                 }
             }
         }
-        stage('Sonar Scan'){
+        stage('Unit Tests and Code Analysis'){
             steps{
-                sh 'echo "Running Sonar"'
+                sh 'echo "Running Unit Tests"'
+                sh './gradlew jacocoTestReport'
+
+                sh 'echo "Analyzing Code"'
                 sh './gradlew sonarqube'
             }
         }
@@ -66,7 +79,7 @@ pipeline {
                         branch 'develop'
                     }
                     steps{
-                        sh './gradlew -Partifactory_repokey=libs-snapshot-local artifactoryPublish'
+                        sh './gradlew artifactoryPublish'
                     }
                 }
                 stage('For a release'){
@@ -80,17 +93,32 @@ pipeline {
             }
         }
         stage('Publish To Docker Hub'){ 
-            when {
-                branch 'develop'
-            }
-            steps{
-                withDockerRegistry([ credentialsId: "${DOCKER_CREDS}", url: "https://index.docker.io/v1/" ]) {
-                    sh 'docker tag ${PROJECT_NAME}:latest ${USER_DOCKER_HUB}/${PROJECT_NAME}:v1.0-$BUILD_NUMBER'
-                    sh 'docker push ${USER_DOCKER_HUB}/${PROJECT_NAME}'
+            stages {
+                stage('Publish develop'){
+                    when {
+                        branch 'develop'
+                    }
+                    steps{
+                        withDockerRegistry([ credentialsId: "${DOCKER_CREDS}", url: "https://index.docker.io/v1/" ]) {
+                            sh 'docker tag ${PROJECT_NAME}:latest ${DOCKER_HUB_IMAGE}:${BUILD_VERSION}'
+                            sh 'docker push ${DOCKER_HUB_IMAGE}'
+                        }
+                    }
+                }
+                stage('Publish release'){
+                    when {
+                        branch 'master'
+                    }
+                    steps{
+                        withDockerRegistry([ credentialsId: "${DOCKER_CREDS}", url: "https://index.docker.io/v1/" ]) {
+                            sh 'docker tag ${PROJECT_NAME}:latest ${DOCKER_HUB_IMAGE}:${PROJECT_VERSION}'
+                            sh 'docker push ${DOCKER_HUB_IMAGE}'
+                        }
+                    }
                 }
             }
         }
-        stage('Deploy To QA Environment'){
+        stage('Promote To QA Environment'){
             environment{
                 APP_PORT=9093
                 DB_PORT=3308
