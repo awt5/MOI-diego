@@ -6,8 +6,8 @@ pipeline {
         PROJECT_NAME = 'moi-app'
         PROJECT_VERSION = '1.1'
         DOCKER_CREDS = 'docker_id'
-        DOCKER_HUB_IMAGE = 'jdiego13/${PROJECT_NAME}'
-        BUILD_VERSION = '1.0.$BUILD_NUMBER'
+        DOCKER_HUB_IMAGE = 'jdiego13/$env.PROJECT_NAME'
+        BUILD_VERSION = '1.0.$env.BUILD_NUMBER'
     }
     stages {
         stage('Build'){
