@@ -43,7 +43,7 @@ pipeline {
             environment{
                 APP_PORT=9092
                 DB_PORT=3307
-                //DEV_HOME='/deployments/dev'
+                DEV_HOME='/deployments/dev'
             }
             when {
                 anyOf{
@@ -53,10 +53,10 @@ pipeline {
             }
             steps {
                 sh 'echo "Deploying to Dev Environment"'
+                sh 'cp docker-compose.yaml $DEV_HOME/'
+                sh 'cd $DEV_HOME'
                 sh 'docker-compose down -v'
-                sh 'docker-compose config'
-                sh 'docker-compose build'
-                sh 'docker-compose up -d'
+                sh 'docker-compose up -d --build'
             }
         }
         stage('Publish to Artifactory'){
@@ -101,13 +101,10 @@ pipeline {
             }
             steps {
                 sh 'echo "Deploying to QA Environment"'
-                sh 'ls -l $QA_HOME'
                 sh 'cp docker-compose.yaml $QA_HOME/'
                 sh 'cd $QA_HOME'
                 sh 'docker-compose down -v'
-                sh 'docker-compose config'
-                sh 'docker-compose build'
-                sh 'docker-compose up -d'
+                sh 'docker-compose up -d --build'
             }
         }
         stage('Workspace clean up'){
@@ -117,7 +114,8 @@ pipeline {
             }
             steps{
                 sh 'docker-compose down -v'
-                sh 'docker rmi $(docker images -aq -f dangling=true)'
+                //sh 'docker rmi $(docker images -aq -f dangling=true)'
+                sh 'docker image prune -f'
                 cleanWs()
             }
         }
